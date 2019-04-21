@@ -1,4 +1,0 @@
-仅从暂存区删除git rm --cached
-从暂存区与工作目录删除 git rm
-删除所有被跟踪但是在工作目录被删除的文件 git rm $(git ls-files --deleted)
-
