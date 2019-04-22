@@ -13,8 +13,65 @@ git diff commit id1 commit id2两次提交的差异
 
 git checkout -- <file> 将文件内容从暂存区复制到工作目录
 git reset HEAD <file> 将文件内容从上次提交复制到暂存区
-git checkout HEAD -- <file> 将内容从上次提交复制到工作目录 暂存区与工作目录一致时将会撤销全部改动，工作目录干净  当不一致时 have a try
+git checkout HEAD -- <file> 将内容从上次提交复制到工作目录 暂存区与工作目录一致时将会撤销全部改动，工作目录干净  当不一致时也是如此
+切换 git branch <branchName>
+删除 git branch -d <branchName>
+查看 git branch -v
+切换分支 git checkout <branchName>
+创建并切换到创建的分支 git checkout -b <branchName>
+git branch <reference>
 
+checkout 到一个commit id 会导致与分支分离
+这个过程不要提交，此时提交会被垃圾回收，一般是读操作
+这个过程知识HEAD发生变化，分支并没有回退
+完全回退，将当前分支会退到某历史版本，还是需要用git reset
+git reset --mixed <commit> (默认) 回退HEAD 和分支，并复制到暂存区
+git reset --soft <commit>  当需要工作目录和暂存区保持现有状态，需要传入soft参数
+git reset --hard <commit>  此种模式也会复制到工作目录
+很形象的参数
+没有任何指针指向的提交会被回收
+可以使用git reflog找到
+reflog不断向前，可能过段时间会丢失
+HEAD^ HEAD上的父提交
+HEAD~n HEAD上之前的第n次提交
+
+git stash保存目前工作目录和暂存区状态，并返回到干净的工作空间
+git stash save ‘push to stash area’
+git stash list 查看存入
+git stash apply stash@{0}恢复
+git stash drop stash@{0}删除stash记录
+git stash pop = stash apply + git drop
+
+git merge 分支名字 合并分支，将其他分支合并到当前分支
+解决冲突
+git status查看冲突文件
+然后解决both modified 的文件
+最后git add .
+git commit 解决
+
+需要知道这次合并，不使用fast-forward方式来进行分支合并
+git merge next --no-ff
+
+git rebase修剪提交历史基线，俗称‘变基’
+使提交记录线性  发生重演
+千万不要把master分支重演
+
+git tag可以打标签 git tag 名字 commitid
+
+git cat-file -p HEAD 可以帮助我们显示某个git里对象的具体信息
+
+git init ~/git-server --bare git支持本地协议，可以在本地初始化远程服务器
+bare参数表示没有工作目录，远程主要作为存储不需要工作目录，被动接收，同步操作
+
+git push /Users/liuyiwei3/git-server master
+上述方法太过繁琐，需要url
+添加远程仓库别名git remote add origin ~/git-server
+查看远程仓库信息git remote -v
+
+git push origin 分支：分支
+有人提交了
+需要先git pull先同步代码
+git fetch origin master + git merge origin/master = git pull
 
 一般尖括号<>为里边应填写内容的解释
 一般中括号[]为该字段可有可无
